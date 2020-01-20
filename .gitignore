@@ -1,6 +1,8 @@
 # Lino's Dictionary Custom
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
+/android/app/src/main/AndroidManifest.xml
+/ios/Runner/Info.plist
 
 # Miscellaneous
 *.class
