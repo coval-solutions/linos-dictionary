@@ -1,4 +1,4 @@
-package com.example.linos_dictionary
+package com.covalsolutions.linos_dictionary
 
 import android.os.Bundle
 
