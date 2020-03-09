@@ -1,4 +1,6 @@
 # Lino's Dictionary Custom
+/android/keystore
+/android/key.properties
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 /android/app/src/main/AndroidManifest.xml
