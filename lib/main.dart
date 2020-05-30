@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
             : FirebaseAdMob.testAppId);
 
     MyApp.getBannerAd()
-    ..load()
-    ..show(
-      anchorOffset: 0.0,
-      horizontalCenterOffset: 0.0,
-      anchorType: AnchorType.bottom,
-    );
+      ..load()
+      ..show(
+        anchorOffset: 0.0,
+        horizontalCenterOffset: 0.0,
+        anchorType: AnchorType.bottom,
+      );
 
     return MaterialApp(
       title: APP_NAME,

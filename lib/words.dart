@@ -56,7 +56,8 @@ Widget _buildList(BuildContext context, DocumentSnapshot document) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => PhrasesPage(document['name'], document['phrases'])));
+              builder: (context) =>
+                  PhrasesPage(document['name'], document['phrases'])));
     },
   );
 }
