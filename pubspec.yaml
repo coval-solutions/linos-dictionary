@@ -4,20 +4,21 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
-  flutter: "1.12.13+hotfix.8"
+  flutter: "1.17.2"
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.4.3+2
-  cloud_firestore: ^0.13.0+1
-  firebase_admob: ^0.9.0+10
+  firebase_core: ^0.4.5
+  cloud_firestore: ^0.13.6
+  firebase_admob: ^0.9.3+2
   recase: ^3.0.0
   flutter_dotenv: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  cloud_firestore_mocks: ^0.4.4
 
 flutter:
   uses-material-design: true
