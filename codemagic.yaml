@@ -135,6 +135,7 @@ workflows:
         echo "$ANDROID_FIREBASE_JSON"
         echo Decode
         echo "$ANDROID_FIREBASE_JSON" | base64 --decode > "$FCI_BUILD_DIR"/android/app/google-services.json
+        cat  "$FCI_BUILD_DIR"/android/app/google-services.json
         echo Decoding iOS Firebase json
         echo "$IOS_FIREBASE_JSON"
         echo "$IOS_FIREBASE_JSON" | base64 --decode > "$FCI_BUILD_DIR"/ios/Runner/GoogleService-Info.plist
