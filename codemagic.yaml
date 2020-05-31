@@ -56,7 +56,7 @@ workflows:
       - flutter packages pub get
       - flutter analyze
       - flutter test
-      - flutter build appbundle --release
+      - flutter build appbundle --release --build-name=1.0.0 --build-number=$BUILD_NUMBER
       - |
         # generate signed universal apk with user specified keys
         universal-apk generate \
@@ -66,7 +66,8 @@ workflows:
           --key-pass $CM_KEY_ALIAS_PASSWORD \
           --pattern 'build/**/outputs/**/*.aab'
       - find . -name "Podfile" -execdir pod install \;
-      - flutter build ios --release --no-codesign
+      - flutter build ios --release --build-name=1.0.0 --build-number=$BUILD_NUMBER
+        --no-codesign
     artifacts:
       - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
@@ -135,7 +136,7 @@ workflows:
       - flutter packages pub get
       - flutter analyze
       - flutter test
-      - flutter build appbundle --release
+      - flutter build appbundle --debug
       - |
         # generate signed universal apk with user specified keys
         universal-apk generate \
@@ -145,7 +146,7 @@ workflows:
           --key-pass $CM_KEY_ALIAS_PASSWORD \
           --pattern 'build/**/outputs/**/*.aab'
       - find . -name "Podfile" -execdir pod install \;
-      - flutter build ios --release --no-codesign
+      - flutter build ios --debug --no-codesign
     artifacts:
       - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
