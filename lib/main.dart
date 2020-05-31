@@ -1,11 +1,16 @@
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:linos_dictionary/config.dart';
 import 'package:linos_dictionary/words.dart';
 
 Future main() async {
+  Crashlytics.instance.enableInDevMode = false;
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
   await DotEnv().load('.env');
+
   runApp(MyApp());
 }
 
