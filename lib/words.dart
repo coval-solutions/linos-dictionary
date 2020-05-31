@@ -45,18 +45,17 @@ class WordList extends StatelessWidget {
   }
 }
 
-Widget _buildList(BuildContext context, DocumentSnapshot document) {
+Widget _buildList(BuildContext context, DocumentSnapshot snapshot) {
+  Document document = Document.fromSnapshot(snapshot);
   return ListTile(
-    title: Text(document['name']),
+    title: Text(document.getName()),
     subtitle: Text(
-      '${document['phrases'].length} phrase(s)',
+      '${document.getPhrases()?.length} phrase(s)',
       style: TextStyle(fontStyle: FontStyle.italic),
     ),
     onTap: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PhrasesPage(document['name'], document['phrases'])));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => PhrasesPage(document)));
     },
   );
 }

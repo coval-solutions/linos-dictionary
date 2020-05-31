@@ -168,6 +168,8 @@ PODS:
     - Firebase/Core
     - Firebase/Firestore (~> 6.0)
     - Flutter
+  - cloud_firestore_web (0.1.0):
+    - Flutter
   - Firebase/AdMob (6.14.0):
     - Firebase/CoreOnly
     - Google-Mobile-Ads-SDK (~> 7.50)
@@ -283,6 +285,7 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
@@ -313,6 +316,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  cloud_firestore_web:
+    :path: ".symlinks/plugins/cloud_firestore_web/ios"
   firebase_admob:
     :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_core:
@@ -325,10 +330,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: c5d1e4d114eecb1dfb535f008435685bcf6063f1
+  cloud_firestore: 4cc700e236ebfe2d5d980e49cb066d202cfee0e9
+  cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
   Firebase: 0219bb4782eb1406f1b9b0628a2e625484ce910d
   firebase_admob: d8c2bc95b5e0069406280ce6adb816cdee6aa595
-  firebase_core: 9bd2e66a276153e219a87ff39dfecb6b671f524a
+  firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   FirebaseAnalytics: f68b9f3f1241385129ae0a83b63627fc420c05e5
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
@@ -350,4 +356,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
