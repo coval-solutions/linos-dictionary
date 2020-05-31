@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:linos_dictionary/document.dart';
 import 'package:linos_dictionary/main.dart';
@@ -26,6 +27,11 @@ class WordList extends StatelessWidget {
         stream:
             Firestore.instance.collection(Document.WORD_DOCUMENT).snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            Crashlytics.instance.recordError(snapshot.error, StackTrace.current,
+                context: '[WordList] Tried to load some words.');
+          }
+
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
