@@ -11,31 +11,11 @@ import 'package:linos_dictionary/phrases.dart';
 class WordsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(MyApp.APP_NAME),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: WordSearch());
-            },
-          ),
-        ],
-      ),
-      body: WordList(),
-    );
-  }
-}
-
-class WordList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    //ignore: close_sinks
+    // ignore: close_sinks
     final bloc = context.bloc<WordsBloc>();
 
     return BlocBuilder<WordsBloc, WordsState>(
-        bloc: bloc, // provide the local bloc instance
+        bloc: bloc,
         builder: (context, state) {
           if (state is WordsNotLoaded) {
             return Center(
@@ -44,34 +24,57 @@ class WordList extends StatelessWidget {
           }
 
           return StreamBuilder(
-            stream: bloc.state.props.first,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                Crashlytics.instance.recordError(
-                    snapshot.error, StackTrace.current,
-                    context: '[WordList] Tried to load some words.');
-              }
-
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
+              stream: bloc.state.props.first,
+              builder: (context, snapshot) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(MyApp.APP_NAME),
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(
+                              context: context, delegate: WordSearch(snapshot));
+                        },
+                      ),
+                    ],
+                  ),
+                  body: WordList(snapshot),
                 );
-              }
-
-              return Container(
-                height: MediaQuery.of(context).size.height -
-                    ((AdSize.fullBanner.height * 2) + 12),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                    return _buildList(context, snapshot.data.documents[index]);
-                  },
-                ),
-              );
-            },
-          );
+              });
         });
+  }
+}
+
+class WordList extends StatelessWidget {
+  final AsyncSnapshot _snapshot;
+
+  const WordList(this._snapshot);
+
+  @override
+  Widget build(BuildContext context) {
+    if (_snapshot.hasError) {
+      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
+          context: '[WordList] Tried to load some words.');
+    }
+
+    if (!_snapshot.hasData) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return Container(
+      height: MediaQuery.of(context).size.height -
+          ((AdSize.fullBanner.height * 2) + 12),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: _snapshot.data.documents.length,
+        itemBuilder: (context, index) {
+          return _buildList(context, _snapshot.data.documents[index]);
+        },
+      ),
+    );
   }
 }
 
@@ -91,6 +94,10 @@ Widget _buildList(BuildContext context, DocumentSnapshot snapshot) {
 }
 
 class WordSearch extends SearchDelegate<String> {
+  final AsyncSnapshot _snapshot;
+
+  WordSearch(this._snapshot);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -109,12 +116,42 @@ class WordSearch extends SearchDelegate<String> {
           icon: AnimatedIcons.menu_arrow,
           progress: transitionAnimation,
         ),
-        onPressed: () {});
+        onPressed: () {
+          close(context, null);
+        });
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    if (_snapshot.hasError) {
+      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
+          context: '[WordList] Tried to load some words.');
+    }
+
+    if (!_snapshot.hasData) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    final List<DocumentSnapshot> results = _snapshot.data.documents
+        .where((DocumentSnapshot documentSnapshot) => documentSnapshot
+            .data[Document.FIELD_NAME]
+            .toLowerCase()
+            .toString()
+            .contains(query.toLowerCase()))
+        .toList();
+    return Container(
+      height: MediaQuery.of(context).size.height -
+          ((AdSize.fullBanner.height * 2) + 12),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: results.length,
+        itemBuilder: (context, index) {
+          return _buildList(context, results[index]);
+        },
+      ),
+    );
   }
 
   @override
