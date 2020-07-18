@@ -6,19 +6,21 @@ class Document {
   final List<dynamic> _phrases;
 
   static const WORD_DOCUMENT = 'words';
+  static const FIELD_NAME = 'name';
+  static const FIELD_PHRASES = 'phrases';
 
   Document(this._name, this._phrases);
 
   static Document fromSnapshot(DocumentSnapshot snapshot) {
     return Document(
-      snapshot['name'],
-      snapshot['phrases'],
+      snapshot[FIELD_NAME],
+      snapshot[FIELD_PHRASES],
     );
   }
 
   Map<String, Object> toDocument() => {
-        'name': this.getName(),
-        'phrases': this.getPhrases(),
+        FIELD_NAME: this.getName(),
+        FIELD_PHRASES: this.getPhrases(),
       };
 
   String getName() {
