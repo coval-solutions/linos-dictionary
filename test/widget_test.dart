@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:linos_dictionary/main.dart';
+import 'package:linos_dictionary/app.dart';
 import 'package:linos_dictionary/words.dart';
 
 void main() {

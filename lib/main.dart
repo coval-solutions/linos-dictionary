@@ -1,9 +1,11 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:linos_dictionary/config.dart';
-import 'package:linos_dictionary/words.dart';
+import 'package:linos_dictionary/app.dart';
+import 'package:linos_dictionary/blocs/simple_bloc_observer.dart';
+import 'package:linos_dictionary/blocs/words_bloc.dart';
+import 'package:linos_dictionary/repos/firestore_words.dart';
 
 Future main() async {
   Crashlytics.instance.enableInDevMode = false;
@@ -11,53 +13,23 @@ Future main() async {
 
   await DotEnv().load('.env');
 
-  runApp(MyApp());
-}
+  Bloc.observer = SimpleBlocObserver();
 
-class MyApp extends StatelessWidget {
-  static BannerAd _bannerAd;
-  static const String APP_NAME = "Lino's Dictionary";
-  static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices:
-        Config.TEST_DEVICE != null ? <String>[Config.TEST_DEVICE] : null,
+  final FirestoreWordsRepository firestoreWordsRepository =
+      FirestoreWordsRepository();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<WordsBloc>(
+          create: (BuildContext context) => WordsBloc(
+            firestoreWordsRepository: firestoreWordsRepository,
+          )..add(LoadWords()),
+        ),
+      ],
+      child: BlocBuilder<WordsBloc, WordsState>(builder: (context, state) {
+        return MyApp();
+      }),
+    ),
   );
-
-  static getBannerAd() {
-    if (_bannerAd != null) {
-      return _bannerAd;
-    }
-
-    _bannerAd = BannerAd(
-        adUnitId: Config.isReleaseMode()
-            ? Config.getAdUnitId()
-            : BannerAd.testAdUnitId,
-        size: AdSize.fullBanner);
-
-    return _bannerAd;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    FirebaseAdMob.instance.initialize(
-        appId: Config.isReleaseMode()
-            ? Config.getAppAdId()
-            : FirebaseAdMob.testAppId);
-
-    MyApp.getBannerAd()
-      ..load()
-      ..show(
-        anchorOffset: 0.0,
-        horizontalCenterOffset: 0.0,
-        anchorType: AnchorType.bottom,
-      );
-
-    return MaterialApp(
-      title: APP_NAME,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: WordsPage(),
-    );
-  }
 }
