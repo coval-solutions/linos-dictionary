@@ -61,7 +61,6 @@ workflows:
         echo "$ENV" | base64 --decode > "$FCI_BUILD_DIR"/.env
       - flutter packages pub get
       - flutter analyze
-      - flutter test
       - flutter build appbundle --release --build-name=1.0.0 --build-number=$BUILD_NUMBER
       - |
         # generate signed universal apk with user specified keys
@@ -147,7 +146,6 @@ workflows:
         echo "$ENV" | base64 --decode > "$FCI_BUILD_DIR"/.env
       - flutter packages pub get
       - flutter analyze
-      - flutter test
       - flutter build appbundle --debug
       - |
         # generate signed universal apk with user specified keys

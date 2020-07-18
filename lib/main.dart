@@ -8,10 +8,11 @@ import 'package:linos_dictionary/blocs/words_bloc.dart';
 import 'package:linos_dictionary/repos/firestore_words.dart';
 
 Future main() async {
+  await DotEnv().load('.env');
+  WidgetsFlutterBinding.ensureInitialized();
+
   Crashlytics.instance.enableInDevMode = false;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
-
-  await DotEnv().load('.env');
 
   Bloc.observer = SimpleBlocObserver();
 
