@@ -125,7 +125,7 @@ class WordSearch extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     if (_snapshot.hasError) {
       Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
-          context: '[WordList] Tried to load some words.');
+          context: '[WordList] Tried to load some words for search.');
     }
 
     if (!_snapshot.hasData) {
@@ -156,6 +156,34 @@ class WordSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
+    if (_snapshot.hasError) {
+      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
+          context: '[WordList] Tried to load some words for suggestion.');
+    }
+
+    if (!_snapshot.hasData) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    final List<DocumentSnapshot> results = _snapshot.data.documents
+        .where((DocumentSnapshot documentSnapshot) => documentSnapshot
+            .data[Document.FIELD_NAME]
+            .toLowerCase()
+            .toString()
+            .startsWith(query.toLowerCase()))
+        .toList();
+    return Container(
+      height: MediaQuery.of(context).size.height -
+          ((AdSize.fullBanner.height * 2) + 12),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: results.length,
+        itemBuilder: (context, index) {
+          return _buildList(context, results[index]);
+        },
+      ),
+    );
   }
 }
