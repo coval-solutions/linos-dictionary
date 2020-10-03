@@ -15,7 +15,7 @@ class WordsPage extends StatelessWidget {
     final bloc = context.bloc<WordsBloc>();
 
     return BlocBuilder<WordsBloc, WordsState>(
-        bloc: bloc,
+        cubit: bloc,
         builder: (context, state) {
           if (state is WordsNotLoaded) {
             return Center(
@@ -54,8 +54,9 @@ class WordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_snapshot.hasError) {
-      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
-          context: '[WordList] Tried to load some words.');
+      FirebaseCrashlytics.instance.recordError(
+          _snapshot.error, StackTrace.current,
+          reason: '[WordList] Tried to load some words.');
     }
 
     if (!_snapshot.hasData) {
@@ -124,8 +125,9 @@ class WordSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     if (_snapshot.hasError) {
-      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
-          context: '[WordList] Tried to load some words for search.');
+      FirebaseCrashlytics.instance.recordError(
+          _snapshot.error, StackTrace.current,
+          reason: '[WordList] Tried to load some words for search.');
     }
 
     if (!_snapshot.hasData) {
@@ -136,7 +138,7 @@ class WordSearch extends SearchDelegate<String> {
 
     final List<DocumentSnapshot> results = _snapshot.data.documents
         .where((DocumentSnapshot documentSnapshot) => documentSnapshot
-            .data[Document.FIELD_NAME]
+            .data()[Document.FIELD_NAME]
             .toLowerCase()
             .toString()
             .contains(query.toLowerCase()))
@@ -157,8 +159,9 @@ class WordSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (_snapshot.hasError) {
-      Crashlytics.instance.recordError(_snapshot.error, StackTrace.current,
-          context: '[WordList] Tried to load some words for suggestion.');
+      FirebaseCrashlytics.instance.recordError(
+          _snapshot.error, StackTrace.current,
+          reason: '[WordList] Tried to load some words for suggestion.');
     }
 
     if (!_snapshot.hasData) {
@@ -169,7 +172,7 @@ class WordSearch extends SearchDelegate<String> {
 
     final List<DocumentSnapshot> results = _snapshot.data.documents
         .where((DocumentSnapshot documentSnapshot) => documentSnapshot
-            .data[Document.FIELD_NAME]
+            .data()[Document.FIELD_NAME]
             .toLowerCase()
             .toString()
             .startsWith(query.toLowerCase()))

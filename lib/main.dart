@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,26 +14,30 @@ Future main() async {
   await DotEnv().load('.env');
   WidgetsFlutterBinding.ensureInitialized();
 
-  Crashlytics.instance.enableInDevMode = false;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
 
   Bloc.observer = SimpleBlocObserver();
 
   final FirestoreWordsRepository firestoreWordsRepository =
       FirestoreWordsRepository();
 
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<WordsBloc>(
-          create: (BuildContext context) => WordsBloc(
-            firestoreWordsRepository: firestoreWordsRepository,
-          )..add(LoadWords()),
-        ),
-      ],
-      child: BlocBuilder<WordsBloc, WordsState>(builder: (context, state) {
-        return MyApp();
-      }),
-    ),
-  );
+  runZonedGuarded(() {
+    runApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<WordsBloc>(
+            create: (BuildContext context) => WordsBloc(
+              firestoreWordsRepository: firestoreWordsRepository,
+            )..add(LoadWords()),
+          ),
+        ],
+        child: BlocBuilder<WordsBloc, WordsState>(builder: (context, state) {
+          return MyApp();
+        }),
+      ),
+    );
+  }, (error, stackTrace) {
+    print('runZonedGuarded: Caught error in my root zone.');
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
