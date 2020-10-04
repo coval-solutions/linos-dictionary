@@ -3,7 +3,7 @@ import 'package:linos_dictionary/repos/firestore.dart';
 
 class FirestoreWordsRepository implements FirestoreRepository {
   @override
-  Firestore get firestore => Firestore.instance;
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
 
   @override
   Stream<QuerySnapshot> getSnapshots(String collection) {
