@@ -17,9 +17,6 @@ workflows:
       flutter: v1.20.4
       xcode: latest
       cocoapods: default
-    cache:
-      cache_paths:
-        - $FCI_BUILD_DIR/build
     triggering:
       events:
         - push
@@ -92,9 +89,6 @@ workflows:
       flutter: v1.20.4
       xcode: latest
       cocoapods: default
-    cache:
-      cache_paths:
-        - $FCI_BUILD_DIR/build
     triggering:
       events:
         - push
