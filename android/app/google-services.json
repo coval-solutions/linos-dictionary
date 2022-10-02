@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "407841933733",
+    "firebase_url": "https://linos-dictionary.firebaseio.com",
+    "project_id": "linos-dictionary",
+    "storage_bucket": "linos-dictionary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407841933733:android:81736902cef3f4619d004c",
+        "android_client_info": {
+          "package_name": "com.covalsolutions.linos_dictionary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407841933733-c710j4ktaumb3ve2kfro1mo28u7a8avn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcb43tvO_h9Qp8XT-zawF_NdwzRCRdy3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407841933733-c710j4ktaumb3ve2kfro1mo28u7a8avn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "407841933733-3rab0r2i547du6qj882b41rv5booc14h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.covalsolutions.linosDictionary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
